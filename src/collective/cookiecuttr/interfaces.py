@@ -34,6 +34,20 @@ class ICookieCuttrSettings(Interface):
                                        "title='read about our cookies'>"
                                        "Read everything</a>")
 
+    text_page_path = schema.TextLine(
+        title=_(u"Path to the page that contains the text"),
+        description=_(
+            u"help_text_page_path",
+            default=u"Instead of entering the text directly in the previous "
+            "field, you can enter path to the page that contains the text "
+            "to show to your visitor (e.g. 'cookie-policy/message'). This "
+            "is useful if you want the text to be language aware - "
+            "translated version of the page will be used, if available. "
+            "Note that this field takes precedence before the manual text "
+            "input."),
+        required=False
+    )
+
     link = schema.TextLine(title=_(u"Link to page"),
                                  required=False,)
 

@@ -1,14 +1,17 @@
+from collective.cookiecuttr.interfaces import ICookieCuttrSettings
+from Products.Five.browser import BrowserView
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
+from plone.app.layout.analytics.view import AnalyticsViewlet
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
 from zope.interface import implements
 from zope.viewlet.interfaces import IViewlet
 
-from Products.Five.browser import BrowserView
-from Products.CMFPlone.utils import safe_unicode
+import logging
+import re
 
-from zope.component import getUtility
-from plone.registry.interfaces import IRegistry
-
-from collective.cookiecuttr.interfaces import ICookieCuttrSettings
-from plone.app.layout.analytics.view import AnalyticsViewlet
+logger = logging.getLogger('collective.cookiecuttr')
 
 
 class CookieCuttrViewlet(BrowserView):
@@ -30,10 +33,34 @@ class CookieCuttrViewlet(BrowserView):
     def available(self):
         return self.settings and self.settings.cookiecuttr_enabled
 
+    def text(self):
+        """Return text to display in the pop-up window (language aware)"""
+        portal_url = getToolByName(self, 'portal_url')
+        portal = portal_url.getPortalObject()
+        path = self.settings.text_page_path.encode('utf-8')
+
+        try:
+            page_en = portal.restrictedTraverse(path)
+        except (KeyError, AttributeError):
+            logger.exception('Path to the page that contains text is not '
+                             'valid.')
+            return u''
+
+        lang = portal.portal_languages.getPreferredLanguage()
+        page = page_en.getTranslation(lang)
+        if page:
+            text = page.getText()
+        else:
+            text = page_en.getText()
+        # remove newlines and tabs
+        text = re.sub(r"\s+", " ", text.decode('utf-8'))
+        return text
+
     def render(self):
         if self.available():
+            text = self.text() or self.settings.text
             snippet = safe_unicode(js_template % (self.settings.link,
-                                                  self.settings.text,
+                                                  text,
                                                   self.settings.accept_button))
             return snippet
         return ""
