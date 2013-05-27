@@ -37,21 +37,28 @@ class CookieCuttrViewlet(BrowserView):
         """Return text to display in the pop-up window (language aware)"""
         portal_url = getToolByName(self, 'portal_url')
         portal = portal_url.getPortalObject()
-        path = self.settings.text_page_path.encode('utf-8')
+        path = self.settings.text_page_path
+
+        if not path:
+            return u''
 
         try:
+            path = path.encode('utf-8')
             page_en = portal.restrictedTraverse(path)
         except (KeyError, AttributeError):
             logger.exception('Path to the page that contains text is not '
                              'valid.')
             return u''
 
-        lang = portal.portal_languages.getPreferredLanguage()
+        portal_languages = getToolByName(self, 'portal_languages')
+        lang = portal_languages.getPreferredLanguage()
         page = page_en.getTranslation(lang)
+
         if page:
             text = page.getText()
         else:
             text = page_en.getText()
+
         # remove newlines and tabs
         text = re.sub(r"\s+", " ", text.decode('utf-8'))
         return text
