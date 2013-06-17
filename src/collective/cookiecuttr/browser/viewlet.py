@@ -28,13 +28,15 @@ class CookieCuttrViewlet(BrowserView):
         pass
 
     def available(self):
-        return self.settings and self.settings.cookiecuttr_enabled
+        return self.settings and self.settings.getProperty(
+            'cookiecuttr_enabled', False)
 
     def text(self):
         """Return text to display in the pop-up window (language aware)"""
         portal_url = getToolByName(self, 'portal_url')
         portal = portal_url.getPortalObject()
-        path = self.settings.text_page_path
+        path = self.settings.getProperty('text_page_path', None)
+
         if not path:
             return u''
         try:
@@ -63,8 +65,22 @@ class CookieCuttrViewlet(BrowserView):
     def render(self):
         if self.available():
             text = self.text()
-            snippet = safe_unicode(js_template % (text,
-                                                  self.settings.accept_button))
+            accept_button = self.settings.getProperty(
+                'accept_button', 'Accept cookies')
+            show_decline_button = self.settings.getProperty(
+                'show_decline_button', None)
+            show_decline_button = show_decline_button and 'true' or 'false'
+            decline_button = self.settings.getProperty(
+                'decline_button', 'Decline cookies')
+
+            snippet = safe_unicode(
+                js_template % (
+                    text,
+                    accept_button,
+                    decline_button,
+                    show_decline_button
+                )
+            )
             return snippet
         return ""
 
@@ -74,7 +90,8 @@ class CookieCuttrAwareAnalyticsViewlet(AnalyticsViewlet):
     def render(self):
         properties = getToolByName(self.context, 'portal_properties')
         settings = properties.cookiecuttr_properties
-        available = settings and settings.cookiecuttr_enabled
+        available = settings and settings.getProperty(
+            'cookiecuttr_enabled', False)
 
         # Render if CookieCuttr is enabled and Cookies were accepted
         if available and \
@@ -93,7 +110,8 @@ js_template = """
                 jQuery.cookieCuttr({cookieAnalytics: false,
                                cookieMessage: '%s',
                                cookieAcceptButtonText: '%s',
-                               cookieDeclineButton: true
+                               cookieDeclineButtonText: '%s',
+                               cookieDeclineButton: %s
                                });
                 }
         })

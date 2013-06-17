@@ -10,5 +10,10 @@
               i18n:translate="">
       Accept cookies
     </property>
+    <property name="decline_button" type="string"
+              i18n:translate="">
+      Decline cookies
+    </property>
+    <property name="show_decline_button" type="boolean">False</property>
   </object>
 </object>
