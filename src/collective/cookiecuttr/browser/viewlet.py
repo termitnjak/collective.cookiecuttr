@@ -57,9 +57,8 @@ class CookieCuttrViewlet(BrowserView):
 
     def render(self):
         if self.available():
-            text = self.text() or self.settings.text
-            snippet = safe_unicode(js_template % (self.settings.link,
-                                                  text,
+            text = self.text()
+            snippet = safe_unicode(js_template % (text,
                                                   self.settings.accept_button))
             return snippet
         return ""
@@ -83,13 +82,13 @@ class CookieCuttrAwareAnalyticsViewlet(AnalyticsViewlet):
 js_template = """
 <script type="text/javascript">
 
-    (function($) {
-        $(document).ready(function () {
-            if($.cookieCuttr) {
-                $.cookieCuttr({cookieAnalytics: false,
-                               cookiePolicyLink: "%s",
-                               cookieMessage: "%s",
-                               cookieAcceptButtonText: "%s"
+    (function(jQuery) {
+        jQuery(document).ready(function () {
+            if(jQuery.cookieCuttr) {
+                jQuery.cookieCuttr({cookieAnalytics: false,
+                               cookieMessage: '%s',
+                               cookieAcceptButtonText: '%s',
+                               cookieDeclineButton: true
                                });
                 }
         })
