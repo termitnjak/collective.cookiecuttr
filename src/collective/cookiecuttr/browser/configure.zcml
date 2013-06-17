@@ -11,11 +11,4 @@
         layer="..interfaces.ICookieCuttr"
         />
 
-    <browser:page
-        name="cookiecuttr-settings"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        class="collective.cookiecuttr.browser.controlpanel.CookieCuttrSettingsControlPanel"
-        permission="cmf.ManagePortal"
-        />
-
 </configure>

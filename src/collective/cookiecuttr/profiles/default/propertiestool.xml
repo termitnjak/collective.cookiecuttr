@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<object name="portal_properties" meta_type="Plone Properties Tool"
+ xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+ i18n:domain="collective.cookiecuttr">
+  <object name="cookiecuttr_properties" meta_type="Plone Property Sheet">
+    <property name="title">collective.cookiecuttr properties</property>
+    <property name="cookiecuttr_enabled" type="boolean">False</property>
+    <property name="text_page_path" type="string"></property>
+    <property name="accept_button" type="string"
+              i18n:translate="">
+      Accept cookies
+    </property>
+  </object>
+</object>

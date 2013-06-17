@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import os
 
 version = '0.7.2.dev0'
 
@@ -35,7 +34,6 @@ setup(name='collective.cookiecuttr',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'plone.app.registry',
           'plone.app.layout',
           'plone.browserlayer',
           # -*- Extra requirements: -*-
