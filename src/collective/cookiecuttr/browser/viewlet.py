@@ -46,11 +46,16 @@ class CookieCuttrViewlet(BrowserView):
             return u''
 
         lang = portal.portal_languages.getPreferredLanguage()
-        page = page_en.getTranslation(lang)
-        if page:
-            text = page.getText()
-        else:
-            text = page_en.getText()
+        text = page_en.getText()
+
+        try:
+            page = page_en.getTranslation(lang)
+            if page:
+                text = page.getText()
+        except AttributeError:
+            # LinguaPlone not installed
+            pass
+
         # remove newlines and tabs
         text = re.sub(r"\s+", " ", text.decode('utf-8'))
         return text
