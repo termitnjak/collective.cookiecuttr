@@ -50,12 +50,15 @@ class CookieCuttrViewlet(BrowserView):
                              'valid.')
             return u''
 
-        lang = portal.portal_languages.getPreferredLanguage()
+        portal_languages = getToolByName(self, 'portal_languages')
+        lang = portal_languages.getPreferredLanguage()
         page = page_en.getTranslation(lang)
+
         if page:
             text = page.getText()
         else:
             text = page_en.getText()
+
         # remove newlines and tabs
         text = re.sub(r"\s+", " ", text.decode('utf-8'))
         return text
