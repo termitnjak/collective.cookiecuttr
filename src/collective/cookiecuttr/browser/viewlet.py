@@ -1,3 +1,4 @@
+from collective.cookiecuttr.interfaces import _
 from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
@@ -76,8 +77,8 @@ class CookieCuttrViewlet(BrowserView):
             snippet = safe_unicode(
                 js_template % (
                     text,
-                    accept_button,
-                    decline_button,
+                    self.context.translate(_(accept_button)),
+                    self.context.translate(_(decline_button)),
                     show_decline_button
                 )
             )
