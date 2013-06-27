@@ -15,5 +15,7 @@
       Decline cookies
     </property>
     <property name="show_decline_button" type="boolean">False</property>
+    <property name="popup_position_bottom" type="boolean">False</property>
+
   </object>
 </object>
