@@ -1,7 +1,6 @@
 from setuptools import setup, find_packages
-import os
 
-version = '0.7.2.dev0'
+version = '0.7.5.dev0'
 
 long_description = (
     open('README.rst').read()
@@ -38,6 +37,7 @@ setup(name='collective.cookiecuttr',
           'plone.app.registry',
           'plone.app.layout',
           'plone.browserlayer',
+          'collective.z3cform.datagridfield'
           # -*- Extra requirements: -*-
       ],
       extras_require={
