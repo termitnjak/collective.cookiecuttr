@@ -107,7 +107,6 @@ class CookieCuttrAwareAnalyticsViewlet(AnalyticsViewlet):
 
 js_template = """
 <script type="text/javascript">
-
     (function(jQuery) {
         jQuery(document).ready(function () {
             if(jQuery.cookieCuttr) {
@@ -120,7 +119,7 @@ js_template = """
                     cookieNotificationLocationBottom: %s
                 });
             }
-        })
+        });
     })(jQuery);
 </script>
 
