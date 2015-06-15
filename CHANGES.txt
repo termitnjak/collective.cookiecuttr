@@ -5,7 +5,20 @@ Changelog
 0.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Use simplejson to properly escape quotes [jcerjak]
+
+- Add missing semicolon to javascript template [jcerjak]
+
+- Add option for setting the banner position to bottom instead of top [ferewuz]
+
+- Add decline option [jcerjak]
+
+- Read text from a page in the site, also allowing it to be translated, if
+  LinguaPlone is installed [jcerjak]
+
+- Plone 3 support: update buildout to work with Plone 3, use portal properties
+  to store the settings instead of the registry
+  [jcerjak]
 
 
 0.7.1 (2012-11-08)
