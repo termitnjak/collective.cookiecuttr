@@ -73,16 +73,16 @@ class CookieCuttrViewlet(BrowserView):
             show_decline_button = show_decline_button and 'true' or 'false'
             decline_button = self.settings.getProperty(
                 'decline_button', 'Decline cookies')
-	    popup_position_bottom =  self.settings.getProperty(
-		'popup_position_bottom', None)
-	    popup_position_bottom = popup_position_bottom and 'true' or 'false'
-	    snippet = safe_unicode(
+            popup_position_bottom = self.settings.getProperty(
+                'popup_position_bottom', None)
+            popup_position_bottom = popup_position_bottom and 'true' or 'false'
+            snippet = safe_unicode(
                 js_template % (
                     text,
                     self.context.translate(_(accept_button)),
                     self.context.translate(_(decline_button)),
                     show_decline_button,
-		    popup_position_bottom
+                    popup_position_bottom
                 )
             )
             return snippet
@@ -111,14 +111,15 @@ js_template = """
     (function(jQuery) {
         jQuery(document).ready(function () {
             if(jQuery.cookieCuttr) {
-                jQuery.cookieCuttr({cookieAnalytics: false,
-                               cookieMessage: '%s',
-                               cookieAcceptButtonText: '%s',
-                               cookieDeclineButtonText: '%s',
-                               cookieDeclineButton: %s,
-			       cookieNotificationLocationBottom: %s
-			});
-                }
+                jQuery.cookieCuttr({
+                    cookieAnalytics: false,
+                    cookieMessage: '%s',
+                    cookieAcceptButtonText: '%s',
+                    cookieDeclineButtonText: '%s',
+                    cookieDeclineButton: %s,
+                    cookieNotificationLocationBottom: %s
+                });
+            }
         })
     })(jQuery);
 </script>
