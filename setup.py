@@ -36,6 +36,7 @@ setup(name='collective.cookiecuttr',
           'setuptools',
           'plone.app.layout',
           'plone.browserlayer',
+          'simplejson',
           # -*- Extra requirements: -*-
       ],
       extras_require={

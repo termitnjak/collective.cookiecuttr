@@ -8,6 +8,7 @@ from zope.viewlet.interfaces import IViewlet
 
 import logging
 import re
+import simplejson as json
 
 logger = logging.getLogger('collective.cookiecuttr')
 
@@ -76,11 +77,13 @@ class CookieCuttrViewlet(BrowserView):
             popup_position_bottom = self.settings.getProperty(
                 'popup_position_bottom', None)
             popup_position_bottom = popup_position_bottom and 'true' or 'false'
+            # use safe_unicode to properly encode the string and json.dumps
+            # to escape quotes etc.
             snippet = safe_unicode(
                 js_template % (
-                    text,
-                    self.context.translate(_(accept_button)),
-                    self.context.translate(_(decline_button)),
+                    json.dumps(text),
+                    json.dumps(self.context.translate(_(accept_button))),
+                    json.dumps(self.context.translate(_(decline_button))),
                     show_decline_button,
                     popup_position_bottom
                 )
@@ -112,9 +115,9 @@ js_template = """
             if(jQuery.cookieCuttr) {
                 jQuery.cookieCuttr({
                     cookieAnalytics: false,
-                    cookieMessage: '%s',
-                    cookieAcceptButtonText: '%s',
-                    cookieDeclineButtonText: '%s',
+                    cookieMessage: %s,
+                    cookieAcceptButtonText: %s,
+                    cookieDeclineButtonText: %s,
                     cookieDeclineButton: %s,
                     cookieNotificationLocationBottom: %s
                 });
